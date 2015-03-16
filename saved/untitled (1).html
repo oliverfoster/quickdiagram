@@ -1,0 +1,41 @@
+<!doctype html>
+<head>
+<script>
+var diagram = {
+	"nodes": {
+		"1": {
+			"uid": 1,
+			"text": "Testing testin 124",
+			"x": 2162,
+			"y": 2463,
+			"width": 106,
+			"height": 48
+		},
+		"2": {
+			"uid": 2,
+			"text": "What to do with mysql?",
+			"x": 2603,
+			"y": 2467,
+			"width": 106,
+			"height": 48
+		}
+	},
+	"zoom": 100,
+	"href": "http://rawgit.com/oliverfoster/quickdiagram/master/index.html",
+	"relations": {
+		"2": {
+			"1": true
+		}
+	}
+};
+
+var url = diagram.href+'#diagram='+encodeURI(JSON.stringify(diagram, null, "\t"));
+window.location.href = url;
+</script>
+</head>
+<body>
+<script>
+
+</script>
+</body>
+</html>

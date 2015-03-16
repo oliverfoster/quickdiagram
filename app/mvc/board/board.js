@@ -115,6 +115,9 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.$el.velocity({opacity:1}, {duration: 2000});
 		},
 		onClick: function() {
+			App.doubleClicked = false;
+			App.trigger("altMod", false);
+			$(".altmod").css({"display":"none"});
 			App.trigger("nodes:blur");
 		}
 	});
@@ -198,6 +201,16 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 	}
 
+	var $win = $(window);
+	$win.resize(windowResize);
+	function windowResize() {
+		if ($win.width() < 600) {
+			$('html').removeClass('large').addClass("small");
+		} else {
+			$('html').removeClass('small').addClass("large");
+		}
+	}
+	windowResize();
 	return instance;
 
 });

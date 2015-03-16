@@ -14,7 +14,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			"mouseover": "onMouseOver",
 			"focus": "onFocus",
 			"blur": "onBlur",
-			"click .header": "setDocumentTitle"
+			"click .header": "setDocumentTitle",
+			"dblclick": "onDoubleClick"
 		},
 		setDocumentTitle: function() {
 			document.title = "Diagram - " + this.$(".textarea").val();
@@ -75,7 +76,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				this.setText(this.$(".textarea").val(), false);
 			}, this));
 
-			this.$(".textarea").on("blur", _.bind(this.onBlur,this));
+			//this.$(".textarea").on("blur", _.bind(this.onBlur,this));
 
 			this.listenTo(App, "nodes:blur", this.onUnSelect);
 			this.listenTo(App, "altMod", this.onAltMod);
@@ -164,8 +165,6 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.onSelect();
 		},
 		onBlur: function() {
-			this.focused = false;
-
 			if (!App.selected || !App.selected.nodes || Object.keys(App.selected.nodes).length > 1) return;
 
 			this.onUnSelect();
@@ -225,10 +224,10 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			if (width < 106) width = 106;
 			if (height < 48) height = 48;
 
-			var barSize = 8;
+			var barSize = 16;
 
 			this.$(".bartop").attr({
-				y: height - barSize
+				y: height
 			});
 			this.$(".resizeleft").attr({
 				x: width
@@ -249,7 +248,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				width: width
 			});
 			this.$(".partialheight").attr({
-				height: height - barSize
+				height: height
 			});
 
 			this.item.width = width;
@@ -378,6 +377,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 		
 		},
 		onUnSelect: function() {
+			this.focused = false;
 			if (!App.selected || !App.selected.nodes) return;
 			if (!App.selected.nodes[this.uid]) return;
 
@@ -415,11 +415,20 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 			this.onRemove();
 			this.remove();
+		},
+		onDoubleClick: function() {
+			if (App.doubleClicked) {
+				App.doubleClicked = false;
+			} else {
+				App.doubleClicked = true;
+			}
+			modifier(App.doubleClicked);
 		}
 	});
 
 
 	App.shiftDown = false, App.altDown = false, App.ctrlDown = false;
+	App.doubleClicked = false;
 
 	$(window).on("keydown", function(event) {
 		console.log(event.which);
@@ -434,7 +443,10 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			App.ctrlDown = true;
 			break;
 		}
-		modifier(true);
+		switch(event.which) {
+		case 16: case 17: case 18:
+			modifier(true);
+		}
 
 		switch (event.which) {
 		case 73: //i
@@ -460,12 +472,15 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			App.ctrlDown = false;
 			break;
 		}
-		modifier(false);
+		switch(event.which) {
+		case 16: case 17: case 18:
+			modifier(false);
+		}
 	});
 
 	function modifier(on) {
 		if (on) {
-			if (App.altDown) {
+			if (App.altDown || App.doubleClicked) {
 				App.trigger("altMod", true);
 				$(".altmod").css({"display":"block"});
 			}

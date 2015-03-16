@@ -1,6 +1,6 @@
-.toolbar-zoomout {
+.no-touch.toolbar-zoomout {
 	margin-left: 2px;
 }
-.toolbar-zoomout:hover {
+.large .toolbar-zoomout:hover {
 	width: 132px;
 }

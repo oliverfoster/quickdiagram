@@ -1,6 +1,5 @@
 .node {
 	fill: white;
-	text-align: center;
 }
 
 .node foreignObject {
@@ -14,6 +13,7 @@
 	z-index: 50;
 	border: 0;
    	resize: none;
+   	text-align: center;
 }
 
 .node .cke, .node .cke_inner {

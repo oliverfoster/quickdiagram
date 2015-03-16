@@ -37,8 +37,10 @@
 	overflow: hidden;
 
 }
-.toolbar-item:hover {
+.large.no-touch .toolbar-item:hover {
 	padding-right: 10px;
+}
+.toolbar-item:hover {
 	background-color: rgb(193, 84, 84);
 	color: lightgrey;
 }

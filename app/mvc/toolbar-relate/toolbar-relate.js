@@ -33,7 +33,14 @@ define([
 				if (App.data.diagram[App.data.diagram.current].relations &&
 					App.data.diagram[App.data.diagram.current].relations[initial.uid] &&
 					App.data.diagram[App.data.diagram.current].relations[initial.uid][node.uid]) {
-					delete App.data.diagram[App.data.diagram.current].relations[initial.uid];
+					delete App.data.diagram[App.data.diagram.current].relations[initial.uid][node.uid];
+					continue;
+				}
+
+				if (App.data.diagram[App.data.diagram.current].relations &&
+					App.data.diagram[App.data.diagram.current].relations[node.uid] &&
+					App.data.diagram[App.data.diagram.current].relations[node.uid][initial.uid]) {
+					delete App.data.diagram[App.data.diagram.current].relations[node.uid][initial.uid];
 					continue;
 				}
 
@@ -88,9 +95,12 @@ define([
 					continue;
 				}
 
-				if (!App.data.diagram[App.data.diagram.current].relations ||
+				if ((!App.data.diagram[App.data.diagram.current].relations ||
 					!App.data.diagram[App.data.diagram.current].relations[initial.uid] ||
-					!App.data.diagram[App.data.diagram.current].relations[initial.uid][node.uid]) {
+					!App.data.diagram[App.data.diagram.current].relations[initial.uid][node.uid]) &&
+					(!App.data.diagram[App.data.diagram.current].relations ||
+					!App.data.diagram[App.data.diagram.current].relations[node.uid] ||
+					!App.data.diagram[App.data.diagram.current].relations[node.uid][initial.uid])) {
 					relation.remove();
 					continue;
 				}

@@ -9,6 +9,7 @@ require.config({
 		'draggabilly': "libs/draggabilly",
 		'velocity': "libs/velocity",
 		'throttle': "libs/throttle",
+		'modernizr': "libs/modernizr",
 		'url': "libs/url",
 		'App': "libs/app"
 	},
@@ -37,7 +38,8 @@ define('main',[
 	'draggabilly',
 	'throttle',
 	'url',
-	'velocity'
+	'velocity',
+	'modernizr'
 ], function() {
 	console.log("Loading...");
 });

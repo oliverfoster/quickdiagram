@@ -18,8 +18,8 @@ define(['app/mvc/view'], function(View) {
 				this.closed = true;
 			} else {
 				this.$(".sidebar-icon").removeClass("fa-chevron-right").addClass("fa-chevron-left");
-				this.$el.velocity({width:"300px"}, {duration:250, easing: "easeOutSine"});
-				$(".scrollZone").velocity({right:"300px"}, {duration:250, easing: "easeOutSine"});
+				this.$el.velocity({width:"48px"}, {duration:250, easing: "easeOutSine"});
+				$(".scrollZone").velocity({right:"48px"}, {duration:250, easing: "easeOutSine"});
 				this.closed = false;
 			}
 		}

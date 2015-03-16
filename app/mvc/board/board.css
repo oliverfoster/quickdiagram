@@ -35,7 +35,7 @@
 
 .scrollZone::-webkit-scrollbar-thumb
 {
-	background-color: #000000;
+	background-color: rgb(217, 145, 145);
 }
 
 .relation {

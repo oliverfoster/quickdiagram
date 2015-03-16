@@ -1,6 +1,6 @@
 .toolbar-new {
 	margin-left: 2px;
 }
-.toolbar-new:hover {
+.large.no-touch .toolbar-new:hover {
 	width: 158px;
 }
