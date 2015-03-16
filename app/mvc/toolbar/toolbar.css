@@ -1,0 +1,52 @@
+.toolbar {
+	opacity: 0;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	height: 42px;
+	background-color: rgb(217, 127, 127);
+	border-top: rgb(240, 186, 186);
+}
+
+.toolbar .left {
+	float:left;
+	width:100&;
+}
+
+.toolbar .right {
+	position: absolute;
+  	right: 0px;
+}
+
+.toolbar-icon, .toolbar-icon-display {
+	padding: 14px;
+}
+
+.toolbar-icon-display:hover{
+	background-color: rgb(201, 105, 105);
+}
+
+.toolbar-item {
+	cursor: pointer;
+	white-space: nowrap;
+	background-color: rgb(201, 105, 105);
+	display: inline-block;
+	transition: width .25s;
+	transition-timing-function: ease-out;
+	width:42px;
+	overflow: hidden;
+
+}
+.toolbar-item:hover {
+	padding-right: 10px;
+	background-color: rgb(193, 84, 84);
+	color: lightgrey;
+}
+
+
+.toolbar-icon-text {
+	display: inline-block;
+	height: 100%;
+	top: 0px;
+	position: relative;
+}

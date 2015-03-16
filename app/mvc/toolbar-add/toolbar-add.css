@@ -1,0 +1,7 @@
+.toolbar-add {
+	margin-left: 4px
+}
+
+.toolbar-add:hover {
+	width: 130px;
+}

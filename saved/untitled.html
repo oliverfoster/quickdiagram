@@ -1,0 +1,42 @@
+<!doctype html>
+<head>
+<script>
+var diagram = {
+	"nodes": {
+		"1": {
+			"uid": 1,
+			"text": "Testing",
+			"x": 1844,
+			"y": 2184.5,
+			"width": 151,
+			"height": 53,
+			"css": {
+				"font-style": "italic",
+				"font-weight": "bold",
+				"text-decoration": "underline",
+				"font-size": 36.300000000000004
+			}
+		},
+		"2": {
+			"uid": 2,
+			"text": "Testing testing",
+			"x": 2758,
+			"y": 2217.5,
+			"width": 106,
+			"height": 48
+		}
+	},
+	"zoom": 100,
+	"href": "http://localhost/html/projects/diagrams/index.html"
+};
+
+var url = diagram.href+'?diagram='+encodeURI(JSON.stringify(diagram, null, "\t"));
+window.location.href = url;
+</script>
+</head>
+<body>
+<script>
+
+</script>
+</body>
+</html>

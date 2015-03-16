@@ -1,0 +1,22 @@
+{
+	"require": {
+		"paths": {
+			"vc": "app/mvc/mvc",
+			"style": "app/style/style"
+		}
+	},
+	"mvc": [
+		"board",
+		"node",
+		"toolbar"
+		
+	],
+	"style": [
+		"reset"
+	],
+	"diagram": {
+		"0": {},
+		"length": 1,
+		"current": 0
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"children": [
+		"toolbar-add",
+		"toolbar-remove",
+		"toolbar-relate",
+		"toolbar-zoomout",
+		"toolbar-zoomin",
+		"toolbar-download",
+		"toolbar-share",
+		"toolbar-new"
+	]
+}

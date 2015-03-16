@@ -1,0 +1,28 @@
+.toolbar-search {
+	margin-right: 4px
+}
+
+.toolbar-search {
+	transition: none;
+	transition-timing-function: ease-out;
+}
+
+.toolbar-search .search-text {
+	display: inline-block;
+}
+
+.toolbar-search .search-text-input {
+	border: 4px solid white;
+	border-radius: 20px;
+	width: 225px;
+	outline: 0px;
+	height: 14px;
+	position: relative;
+	top: -1px;
+}
+
+.toolbar-search.toolbar-item:hover {
+	padding-right: 0px;
+	background-color: rgb(193, 84, 84);
+	color: lightgrey;
+}
