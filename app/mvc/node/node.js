@@ -80,6 +80,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 			this.listenTo(App, "nodes:blur", this.onUnSelect);
 			this.listenTo(App, "altMod", this.onAltMod);
+
 			this.listenTo(App, "styleChange", this.onStyleChange);
 			this.listenTo(App, "selected:remove", this.onSelectedRemove);
 
@@ -489,6 +490,11 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			$(".altmod").css({"display":"none"});
 		}
 	}
+
+	App.on("mod", function() {
+		App.doubleClicked = !App.doubleClicked;
+		modifier(App.doubleClicked);
+	});
 
 	return node;
 });

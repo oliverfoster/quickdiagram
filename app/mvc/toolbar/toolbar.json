@@ -3,6 +3,7 @@
 		"toolbar-add",
 		"toolbar-remove",
 		"toolbar-relate",
+		"toolbar-mod",
 		"toolbar-zoomout",
 		"toolbar-zoomin",
 		"toolbar-download",
