@@ -15,7 +15,7 @@ define(['app/mvc/view'], function(View) {
 
 			var data = "<!doctype html>\n<head>\n<script>\n";
 			data += "var diagram = " + JSON.stringify(App.data.diagram[App.data.diagram.current], null, "\t") + ";\n\n";
-			data += "var url = diagram.href+'?diagram='+encodeURI(JSON.stringify(diagram, null, \"\\t\"));\n";
+			data += "var url = diagram.href+'#diagram='+encodeURI(JSON.stringify(diagram, null, \"\\t\"));\n";
 			data += "window.location.href = url;\n";
 			data += "</script>\n</head>\n<body>\n<script>\n";
 			data += "\n";

@@ -148,8 +148,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 
 	var restore = function() {
-		if (!url('?diagram')) return;
-		var diagram = App.data.diagram[App.data.diagram.current] = JSON.parse(decodeURI(url('?diagram')));
+		if (!url('#diagram')) return;
+		var diagram = App.data.diagram[App.data.diagram.current] = JSON.parse(decodeURI(url('#diagram')));
 		console.log(App.data.diagram[App.data.diagram.current]);
 		
 		var Node = require("node");
