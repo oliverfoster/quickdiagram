@@ -70,7 +70,7 @@ define(['app/mvc/view'],function() {
 			});
 
 			$.ajax({
-				url: path+interface+"/"+interface+".hbs?bust=" +  (new Date()).getTime(),
+				url: path+interface+"/"+interface+".html?bust=" +  (new Date()).getTime(),
 				type: "GET",
 				dataType: "text",
 				success: _.partial(templateLoaded, interface)
