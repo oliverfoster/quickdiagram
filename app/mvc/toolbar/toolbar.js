@@ -4,7 +4,7 @@ define(['app/mvc/view'], function(View) {
 		viewId: "toolbar",
 		className: "toolbar",
 		onReady: function() {
-			this.$el.velocity({opacity:1}, {duration: 2000});
+			this.$el.velocity({opacity:1}, {duration: 500});
 		}
 	});
 

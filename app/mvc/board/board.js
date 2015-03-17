@@ -113,7 +113,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 		},
 		onReady: function() {
-			this.$el.velocity({opacity:1}, {duration: 2000});
+			this.$el.velocity({opacity:1}, {duration: 500});
 		},
 		onClick: function() {
 			App.doubleClicked = false;

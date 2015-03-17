@@ -9,7 +9,7 @@ define(['app/mvc/view'], function(View) {
 			"mousedown .sidebar-item": "onAction"
 		},
 		onReady: function() {
-			this.$el.velocity({opacity:1}, {duration: 2000});
+			this.$el.velocity({opacity:1}, {duration: 500});
 		},
 		onToggle: function() {
 			if (!this.closed) {
