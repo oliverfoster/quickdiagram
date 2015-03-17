@@ -34,6 +34,7 @@ define([
 					App.data.diagram[App.data.diagram.current].relations[initial.uid] &&
 					App.data.diagram[App.data.diagram.current].relations[initial.uid][node.uid]) {
 					delete App.data.diagram[App.data.diagram.current].relations[initial.uid][node.uid];
+					App.trigger("relation:remove");
 					continue;
 				}
 
@@ -41,6 +42,7 @@ define([
 					App.data.diagram[App.data.diagram.current].relations[node.uid] &&
 					App.data.diagram[App.data.diagram.current].relations[node.uid][initial.uid]) {
 					delete App.data.diagram[App.data.diagram.current].relations[node.uid][initial.uid];
+					App.trigger("relation:remove");
 					continue;
 				}
 
@@ -70,6 +72,8 @@ define([
 				if (!App.data.diagram[App.data.diagram.current].relations[initial.uid])
 					App.data.diagram[App.data.diagram.current].relations[initial.uid] = {};
 				App.data.diagram[App.data.diagram.current].relations[initial.uid][node.uid]=true;
+
+				App.trigger("relation:add");
 			}
 
 			App.altDown = true;

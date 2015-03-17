@@ -80,7 +80,6 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 			this.listenTo(App, "nodes:blur", this.onUnSelect);
 			this.listenTo(App, "altMod", this.onAltMod);
-
 			this.listenTo(App, "styleChange", this.onStyleChange);
 			this.listenTo(App, "selected:remove", this.onSelectedRemove);
 
@@ -208,6 +207,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			case "relationChange":
 
 			}
+
+			App.trigger("styleChanged");
 		},
 		onAltMod: function(on) {
 			if (on) {
@@ -287,6 +288,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 					"stroke":""
 				});
 			}
+
+			App.trigger("styleChanged");
 		},
 		setSize: function(options) {
 
@@ -334,6 +337,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.item.width = width;
 			this.item.height = height;
 
+			App.trigger("styleChanged");
+
 		},
 		setPosition: function(options) {
 			
@@ -343,6 +348,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.item.svg.transform.translate[0] = this.item.x;
 			this.item.svg.transform.translate[1] = this.item.y;
 			this.$el.attr(this.getSVGAttributes());
+
+			App.trigger("styleChanged");
 			
 		},
 		getSVGAttributes: function() {

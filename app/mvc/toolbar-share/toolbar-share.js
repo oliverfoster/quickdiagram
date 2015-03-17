@@ -9,10 +9,20 @@ define(['app/mvc/view'], function(View) {
 		postRender: function() {
 			this.parent.$(".left").append(this.$el);
 			this.trigger("ready");
+
+			this.listenTo(App, "styleChanged", this.onDiagramChange);
+			this.listenTo(App, "node:add", this.onDiagramChange);
+			this.listenTo(App, "selected:remove", this.onDiagramChange);
+			this.listenTo(App, "relation:add", this.onDiagramChange);
+			this.listenTo(App, "relation:remove", this.onDiagramChange);
+		},
+		onDiagramChange: function() {
+			this.throttle("saving", function() {
+				console.log("Saving");
+				window.location.hash="diagram=" +encodeURI(JSON.stringify(App.data.diagram[App.data.diagram.current]));
+			}, 500);
 		},
 		onClick: function() {
-			var file = encodeURI(JSON.stringify(App.data.diagram[App.data.diagram.current], null, "\t"));
-
 			var data = "<!doctype html>\n<head>\n<script>\n";
 			data += "var diagram = " + JSON.stringify(App.data.diagram[App.data.diagram.current], null, "\t") + ";\n\n";
 			data += "var url = diagram.href+'#diagram='+encodeURI(JSON.stringify(diagram, null, \"\\t\"));\n";
@@ -29,6 +39,7 @@ define(['app/mvc/view'], function(View) {
 		}
 	});
 
+	throttle.extend(view.prototype);
 
 	App.mvc.registerView(view);
 

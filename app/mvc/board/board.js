@@ -107,6 +107,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 			this.nodes.push(node);
 			this.$el.find(".nodes .scaler.node-board").append(node.$el);
+			App.trigger("node:add");
 		},
 		onRemove: function() {
 
