@@ -5,7 +5,8 @@ define(['app/mvc/view'], function(View) {
 		className: "sidebar",
 		closed: true,
 		events: {
-			"click .close": "onToggle"
+			"click .close": "onToggle",
+			"mousedown .sidebar-item": "onAction"
 		},
 		onReady: function() {
 			this.$el.velocity({opacity:1}, {duration: 2000});
@@ -22,6 +23,11 @@ define(['app/mvc/view'], function(View) {
 				$(".scrollZone").velocity({right:"48px"}, {duration:250, easing: "easeOutSine"});
 				this.closed = false;
 			}
+		},
+		onAction: function (event) {
+			var action = $(event.currentTarget).attr("data-action");
+			if (!action) return;
+			App.trigger("styleChange", action);
 		}
 	});
 

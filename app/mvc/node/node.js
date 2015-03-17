@@ -29,18 +29,18 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.uid = ++uid;
 			this.item = {
 				uid: uid,
-				text: ""
+				text: "",
+				svg: {
+					transform: {
+						translate: [0,0]
+					},
+					class: this.className
+				}
 			};
 
 			this.$el.attr("data-uid", uid);
 			this.$el.attr(this.model.node);
 			
-			this.svgAttributes = {
-				transform: {
-					translate: [0,0]
-				},
-				class: this.className
-			};
 			App.data.diagram[App.data.diagram.current].nodes[uid] = this.item;
 			this.$el.attr(this.getSVGAttributes());
 
@@ -92,7 +92,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 			if (!this.item.css) this.item.css = {};
 			switch (char) {
-			case 187: //+
+			case 187: case "fontIncrease"://+
 				var value = parseInt(this.$(".textarea").css("font-size"));
 				value = value * 1.1;
 				this.$(".textarea").css({
@@ -100,7 +100,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				});
 				this.item.css['font-size'] = value;
 				break;
-			case 189: //-
+			case 189: case "fontDecrease": //-
 				var value = parseInt(this.$(".textarea").css("font-size"));
 				value = value / 1.1;
 				this.$(".textarea").css({
@@ -108,7 +108,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				});
 				this.item.css['font-size'] = value;
 				break;
-			case 73: //i
+			case 73:  case "fontItalic"://i
 				var value = this.$(".textarea").css("font-style");
 				value = value =="italic" ? "": "italic";
 				this.$(".textarea").css({
@@ -116,7 +116,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				});
 				this.item.css['font-style'] = value;
 				break;
-			case 66: //b
+			case 66: case "fontBold": //b
 				var value = this.$(".textarea").css("font-weight");
 				value = value == "bold" ? "": "bold"
 				this.$(".textarea").css({
@@ -124,7 +124,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				});
 				this.item.css['font-weight'] = value;
 				break;
-			case 85: //u
+			case 85: case "fontUnderline"://u
 				var value = this.$(".textarea").css("text-decoration");
 				value = value =="underline" ? "": "underline"
 				this.$(".textarea").css({
@@ -132,7 +132,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				});
 				this.item.css['text-decoration'] = value;
 				break;
-			case 83: //s
+			case 83: case "fontStrikeThrough"://s
 				var value = this.$(".textarea").css("text-decoration");
 				value = value =="line-through" ? "": "line-through";
 				this.$(".textarea").css({
@@ -140,6 +140,73 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				});
 				this.item.css['text-decoration'] = value;
 				break;
+			case "fontAlignLeft"://s
+				var value = this.$(".textarea").css("text-align");
+				value = value =="left" ? "": "left";
+				this.$(".textarea").css({
+					"text-align": value
+				});
+				this.item.css['text-align'] = value;
+				break;
+			case "fontAlignRight"://s
+				var value = this.$(".textarea").css("text-align");
+				value = value =="right" ? "": "right";
+				this.$(".textarea").css({
+					"text-align": value
+				});
+				this.item.css['text-align'] = value;
+				break;
+			case "fontAlignCenter"://s
+				var value = this.$(".textarea").css("text-align");
+				value = value =="center" ? "": "center";
+				this.$(".textarea").css({
+					"text-align": value
+				});
+				this.item.css['text-align'] = value;
+				break;
+			case "rotateRight": 
+				if (!this.item.svg.transform) this.item.svg.transform = {};
+				if (!this.item.svg.transform.rotate) this.item.svg.transform.rotate = [0];
+				this.item.svg.transform.rotate[0] += 22.5;
+				this.$el.attr(this.getSVGAttributes());
+				break;
+			case "borderCircle": 
+				var classes = this.item.svg.class.split(" ");
+				var classes = _.filter(classes, function(item) {
+				     return item !== "square" && item !== "circle";
+				});
+				classes.push("circle");
+				this.item.svg.class = classes.join(" ");
+				this.$el.attr(this.getSVGAttributes());
+				break;
+			case "borderSquare":
+				var classes = this.item.svg.class.split(" ");
+				var classes = _.filter(classes, function(item) {
+				     return item !== "square" && item !== "circle";
+				});
+				classes.push("square");
+				this.item.svg.class = classes.join(" ");
+				this.$el.attr(this.getSVGAttributes());
+				break;
+			case "colourChange":
+				var colour = ["red", "green", "blue", "yellow", "white"];
+				var classes = this.item.svg.class.split(" ");
+				var current = 0;
+				var classes = _.filter(classes, function(item) {
+					var cIndex = _.indexOf(colour, item);
+					if (cIndex > -1) {
+						current = cIndex;
+						return false;
+					}
+					return true;
+				});
+				if (current === colour.length - 1) current = 0;
+				else current++;
+				classes.push( colour[current] );
+				this.item.svg.class = classes.join(" ");
+				this.$el.attr(this.getSVGAttributes());
+			case "relationChange":
+
 			}
 		},
 		onAltMod: function(on) {
@@ -200,6 +267,10 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				this.$(".textarea").css(this.saved.css);
 				this.item.css = this.saved.css;
 			}
+			if (this.saved.svg) {
+				this.item.svg = this.saved.svg;
+				this.$el.attr(this.getSVGAttributes());
+			}
 		},
 		setText: function(value, dontUpdate) {
 			if (!dontUpdate) this.$(".textarea").val(value);
@@ -251,6 +322,14 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.$(".partialheight").attr({
 				height: height
 			});
+			this.$(".centerpoint").attr({
+				cx: width/2,
+				cy: height/2
+			});
+			this.$(".radius").attr({
+				rx: width / 1.273479783508437,
+				ry: height / 1.273479783508437
+			});
 
 			this.item.width = width;
 			this.item.height = height;
@@ -261,24 +340,24 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.item.x = options.x;
 			this.item.y = options.y;
 
-			this.svgAttributes.transform.translate[0] = this.item.x;
-			this.svgAttributes.transform.translate[1] = this.item.y;
+			this.item.svg.transform.translate[0] = this.item.x;
+			this.item.svg.transform.translate[1] = this.item.y;
 			this.$el.attr(this.getSVGAttributes());
 			
 		},
 		getSVGAttributes: function() {
 			var ret = {};
-			for (var k in this.svgAttributes) {
+			for (var k in this.item.svg) {
 				ret[k] = "";
-				if (typeof this.svgAttributes[k] == "object") {
-					for (var sk in this.svgAttributes[k]) {
-						ret[k] += sk + "(" + this.svgAttributes[k][sk].join(",") + ") ";
+				if (typeof this.item.svg[k] == "object") {
+					for (var sk in this.item.svg[k]) {
+						ret[k] += sk + "(" + this.item.svg[k][sk].join(",") + ") ";
 					}
 				} else {
-					ret[k] += this.svgAttributes[k] + " ";
+					ret[k] += this.item.svg[k] + " ";
 				}
 			}
-			for (var k in this.svgAttributes) {
+			for (var k in this.item.svg) {
 				ret[k] = ret[k].trim();
 			}
 			return ret;

@@ -2,8 +2,61 @@
 	fill: white;
 }
 
+.node.red {
+	fill: red;
+}
+.node.green {
+	fill: green;
+}
+.node.green .textarea {
+	color: white;
+}
+.node.blue {
+	fill: blue;
+}
+.node.blue .textarea {
+	color: white;
+}
+.node.yellow {
+	fill: yellow;
+}
+.node.white {
+	fill: white;
+}
+
 .node foreignObject {
 	position: relative;
+}
+
+.node .outline-circle { 
+	display:none;
+}
+.node .outline-square.border { 
+	display:none;
+}
+
+.node.square .outline-square.selector { 
+	display:block;
+}
+.node.square .outline-square.border { 
+	stroke: black;
+	stroke-width: 2;
+	display:block;
+}
+.node.square .outline-circle { 
+	display:none;
+}
+
+.node.circle .outline-circle.selector { 
+	display:block;
+}
+.node.circle .outline-circle.border { 
+	stroke: black;
+	stroke-width: 2;
+	display:block;
+}
+.node.circle .outline-square { 
+	display:none;
 }
 
 .node .textarea {
@@ -14,6 +67,7 @@
 	border: 0;
    	resize: none;
    	text-align: center;
+   	background-color: transparent;
 }
 
 .node .cke, .node .cke_inner {
