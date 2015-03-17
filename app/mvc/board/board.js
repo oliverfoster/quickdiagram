@@ -191,8 +191,18 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 			var initial = App.data.diagram[App.data.diagram.current].nodes[k];
 
+			if (initial === undefined) {
+				delete App.data.diagram[App.data.diagram.current].nodes[k];
+				continue;
+			}
+
 			for (var i = 0, l = children.length; i < l; i++) {
 				var node = App.data.diagram[App.data.diagram.current].nodes[children[i]];
+
+				if (node === undefined) {
+					delete App.data.diagram[App.data.diagram.current].nodes[children[i]];
+					continue;
+				}
 
 				var relation = $(document.createElementNS(svgNS,"path"));
 				relation.attr({
