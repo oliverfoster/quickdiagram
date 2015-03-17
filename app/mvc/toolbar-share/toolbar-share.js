@@ -19,24 +19,11 @@ define(['app/mvc/view'], function(View) {
 		onDiagramChange: function() {
 			this.throttle("saving", function() {
 				console.log("Saving");
-				window.location.hash="diagram=" +utf8_to_b64(JSON.stringify(App.data.diagram[App.data.diagram.current]));
+				window.location.hash="diagram=" +encodeURI(utf8_to_b64(JSON.stringify(App.data.diagram[App.data.diagram.current])));
 			}, 500);
 		},
 		onClick: function() {
-			var data = "<!doctype html>\n<head>\n<script>\n";
-			data += "var diagram = \"" + utf8_to_b64(JSON.stringify(App.data.diagram[App.data.diagram.current])) + "\";\n\n";
-			data += "var href = \"" + App.data.diagram[App.data.diagram.current].href + "\";\n";
-			data += "var url = href+'#diagram='+diagram;\n";
-			data += "window.location.href = url;\n";
-			data += "</script>\n</head>\n<body>\n<script>\n";
-			data += "\n";
-			data += "</script>\n";
-			data += "</body>\n</html>\n";
-
-
-			data = encodeURI(data);
-
-			window.prompt("Copy to clipboard: Ctrl+C, Enter", 'data:text/html,'+data);
+			window.alert("Please copy and paste url");
 		}
 	});
 
