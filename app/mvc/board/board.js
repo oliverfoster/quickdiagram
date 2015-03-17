@@ -150,10 +150,18 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 	});
 
+	function b64_to_utf8( str ) {
+		return decodeURIComponent(escape(window.atob( str )));
+	}
 
 	var restore = function() {
 		if (!url('#diagram')) return;
-		var diagram = App.data.diagram[App.data.diagram.current] = JSON.parse(decodeURI(url('#diagram')));
+		var diagram;
+		try {
+			diagram = App.data.diagram[App.data.diagram.current] = JSON.parse(decodeURI(url('#diagram')));
+		} catch(e) {
+			diagram = App.data.diagram[App.data.diagram.current] = JSON.parse(b64_to_utf8(url('#diagram')));
+		}
 		console.log(App.data.diagram[App.data.diagram.current]);
 		
 		var Node = require("node");

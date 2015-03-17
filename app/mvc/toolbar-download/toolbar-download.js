@@ -11,11 +11,10 @@ define(['app/mvc/view'], function(View) {
 			this.trigger("ready");
 		},
 		onClick: function() {
-			var file = encodeURI(JSON.stringify(App.data.diagram[App.data.diagram.current], null, "\t"));
-
 			var data = "<!doctype html>\n<head>\n<script>\n";
-			data += "var diagram = " + JSON.stringify(App.data.diagram[App.data.diagram.current], null, "\t") + ";\n\n";
-			data += "var url = diagram.href+'#diagram='+encodeURI(JSON.stringify(diagram, null, \"\\t\"));\n";
+			data += "var diagram = \"" + utf8_to_b64(JSON.stringify(App.data.diagram[App.data.diagram.current])) + "\";\n\n";
+			data += "var href = \"" + App.data.diagram[App.data.diagram.current].href + "\";\n";
+			data += "var url = href+'#diagram='+diagram;\n";
 			data += "window.location.href = url;\n";
 			data += "</script>\n</head>\n<body>\n<script>\n";
 			data += "\n";
