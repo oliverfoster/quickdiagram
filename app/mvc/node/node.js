@@ -188,7 +188,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				this.$el.attr(this.getSVGAttributes());
 				break;
 			case "colourChange":
-				var colour = ["red", "green", "blue", "yellow", "white"];
+				var colour = ["red", "green", "blue", "yellow", "transparent", "white"];
 				var classes = this.item.svg.class.split(" ");
 				var current = 0;
 				var classes = _.filter(classes, function(item) {
