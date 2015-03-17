@@ -63,21 +63,21 @@ define(['app/mvc/view'],function() {
 			required[interface] = path+interface+"/"+interface;
 
 			$.ajax({
-				url: path+interface+"/"+interface+".css?bust=" +  (new Date()).getTime(),
+				url: path+interface+"/"+interface+".css",//?bust=" +  (new Date()).getTime(),
 				type: "GET",
 				dataType: "text",
 				success: _.partial(cssLoaded, interface)
 			});
 
 			$.ajax({
-				url: path+interface+"/"+interface+".html?bust=" +  (new Date()).getTime(),
+				url: path+interface+"/"+interface+".html",//?bust=" +  (new Date()).getTime(),
 				type: "GET",
 				dataType: "text",
 				success: _.partial(templateLoaded, interface)
 			});
 
 			$.ajax({
-				url: path+interface+"/"+interface+".json?bust=" +  (new Date()).getTime(),
+				url: path+interface+"/"+interface+".json",//?bust=" +  (new Date()).getTime(),
 				type: "GET",
 				dataType: "json",
 				success: _.partial(modelLoaded, interface)
