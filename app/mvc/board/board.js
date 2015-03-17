@@ -182,6 +182,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 		
 		var Node = require("node");
 
+		if (diagram.uid) Node.uid = diagram.uid;
+
 		instance.setZoom(diagram.zoom);
 		document.title = diagram.title;
 
@@ -191,8 +193,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 			var initial = App.data.diagram[App.data.diagram.current].nodes[k];
 
-			if (initial === undefined) {
-				delete App.data.diagram[App.data.diagram.current].nodes[k];
+			if (initial === undefined) {				
+				delete App.data.diagram[App.data.diagram.current].relations[k];
 				continue;
 			}
 
@@ -200,7 +202,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				var node = App.data.diagram[App.data.diagram.current].nodes[children[i]];
 
 				if (node === undefined) {
-					delete App.data.diagram[App.data.diagram.current].nodes[children[i]];
+					delete App.data.diagram[App.data.diagram.current].relations[k][children[i]];
 					continue;
 				}
 
@@ -228,6 +230,9 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				instance.$el.find(".nodes .scaler.relation-board").append(relation);
 			}
 		}
+
+		Node.uid = parseInt(_.max(_.keys(App.data.diagram[App.data.diagram.current].nodes)));
+		diagram.uid = Node.uid;
 
 		for (var k in diagram.nodes) {
 			var node = new Node({saved:diagram.nodes[k]});

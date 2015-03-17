@@ -3,7 +3,6 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 
 	App.data.diagram[App.data.diagram.current].nodes = {};
 
-	var uid = 0;
 	var node = View.extend({
 		tagName: "rect",
 		viewId: "node",
@@ -26,31 +25,42 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			return ele;
 		},
 		postInitialize: function() {
-			this.uid = ++uid;
+			if (this.saved) {
+				this.item = $.extend(true,{},this.saved);
+				this.uid = this.saved.uid;
+				this.$el.attr("data-uid", this.uid);
+				this.$el.attr(this.model.node);
+				this.$el.attr(this.getSVGAttributes());
+				App.data.diagram[App.data.diagram.current].nodes[this.uid] = this.item;
+				return;
+			}
+
+			this.uid = ++node.uid;
+			App.data.diagram[App.data.diagram.current].uid = node.uid;
 			this.item = {
-				uid: uid,
+				uid: this.uid,
 				text: "",
 				svg: {
 					transform: {
 						translate: [0,0]
 					},
 					class: this.className
-				}
+				},
+				width: 106,
+				height: 48
 			};
 
-			this.$el.attr("data-uid", uid);
+			this.$el.attr("data-uid", this.uid);
 			this.$el.attr(this.model.node);
 			
-			App.data.diagram[App.data.diagram.current].nodes[uid] = this.item;
+			App.data.diagram[App.data.diagram.current].nodes[this.uid] = this.item;
 			this.$el.attr(this.getSVGAttributes());
 
 		},
 		postRender: function() {
 			this.setText(this.item.text, true);
-			this.setSize({
-				width: 106,
-				height: 48
-			});
+			this.setPosition({x:this.item.x, y:this.item.y});
+			this.setSize({width:this.item.width, height:this.item.height});
 
 
 			var mover = new Draggabilly( this.$el[0], {
@@ -75,8 +85,6 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.$el.on("keyup", _.bind(function(event) {
 				this.setText(this.$(".textarea").val(), false);
 			}, this));
-
-			//this.$(".textarea").on("blur", _.bind(this.onBlur,this));
 
 			this.listenTo(App, "nodes:blur", this.onUnSelect);
 			this.listenTo(App, "altMod", this.onAltMod);
@@ -246,6 +254,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 		},
 		restoreSaved: function() {
 			if (!this.saved) return;
+
 			if (this.saved.x && this.saved.y) {
 				this.setPosition({
 					x: this.saved.x,
@@ -272,6 +281,12 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				this.item.svg = this.saved.svg;
 				this.$el.attr(this.getSVGAttributes());
 			}
+
+			this.$el.attr("data-uid", this.uid);
+			this.$el.attr(this.model.node);
+		
+			this.$el.attr(this.getSVGAttributes());
+
 		},
 		setText: function(value, dontUpdate) {
 			if (!dontUpdate) this.$(".textarea").val(value);
@@ -497,6 +512,15 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			}
 
 			delete App.data.diagram[App.data.diagram.current].nodes[this.uid];
+			delete App.data.diagram[App.data.diagram.current].relations[this.uid];
+
+			for (var k in App.data.diagram[App.data.diagram.current].relations) {
+				for (var l in App.data.diagram[App.data.diagram.current].relations[k]) {
+					if (l == this.uid) {
+						delete App.data.diagram[App.data.diagram.current].relations[k][l]
+					}
+				}
+			}
 
 			App.trigger("nodes:remove");
 
@@ -512,6 +536,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			modifier(App.doubleClicked);
 		}
 	});
+	node.uid = 0;
 
 
 	App.shiftDown = false, App.altDown = false, App.ctrlDown = false;
