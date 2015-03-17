@@ -231,12 +231,12 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			}
 		}
 
-		var ids = _.keys(App.data.diagram[App.data.diagram.current].nodes;
+		var ids = _.keys(App.data.diagram[App.data.diagram.current].nodes);
 		for (var i = 0, l = ids.length; i < l; i++) {
 			ids[i] = parseInt(ids[i]);
 		}
 
-		Node.uid = parseInt(_.max(ids)));
+		Node.uid = parseInt(_.max(ids));
 		diagram.uid = Node.uid;
 
 		for (var k in diagram.nodes) {
@@ -244,7 +244,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			instance.addNode( node );
 		}
 
-		Node.uid = parseInt(_.max(ids)));
+		Node.uid = parseInt(_.max(ids));
 		diagram.uid = Node.uid;
 	}
 
