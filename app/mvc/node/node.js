@@ -416,7 +416,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			for (var k in App.selected.nodes) {
 				var no = App.selected.nodes[k];
 
-				if (!no.startDragPointer) this.onDragResizeStart(event, pointer);
+				if (!no.startDragPointer) return;
 
 				var pointDifference = {
 					x: (pointer.clientX - no.startDragPointer.x) / ratio,
@@ -467,7 +467,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			var ratio = App.data.diagram[App.data.diagram.current].zoom / 100;
 			for (var k in App.selected.nodes) {
 				var no = App.selected.nodes[k];
-				if (!no.startDragPointer) this.onDragStart(event, pointer);
+				if (!no.startDragPointer) return;
 				var pointDifference = {
 					x: (pointer.clientX - no.startDragPointer.x) / ratio,
 					y: (pointer.clientY - no.startDragPointer.y) / ratio
