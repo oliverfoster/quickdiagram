@@ -70,6 +70,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.mover = mover;
 			mover.on('dragStart', _.bind(this.onDragStart, this));
 			mover.on('dragMove', _.bind(this.onDragMove, this));
+			mover.on('dragEnd', _.bind(this.onDragEnd, this));
 			mover.disable();
 
 			var resizer = new Draggabilly( this.$el.find(".resize")[0], {
@@ -78,6 +79,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.resizer = resizer;
 			resizer.on('dragStart', _.bind(this.onDragResizeStart, this));
 			resizer.on('dragMove', _.bind(this.onDragResizeMove, this));
+			resizer.on('dragEnd', _.bind(this.onDragResizeEnd, this));
 
 			var $scrollZone = $(".scrollZone");
 			$scrollZone.scroll(_.bind(this.onScroll, this));
@@ -226,7 +228,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			}
 		},
 		onMouseOver: function() {
-			if (App.altDown === true) {
+			if (App.altDown === true && App.noselect !== true) {
 				this.onFocus()
 			}
 		},
@@ -391,8 +393,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			var ratio = App.data.diagram[App.data.diagram.current].zoom / 100;
 
 			var offset = {
-				x: parseInt($(event.handles[0]).attr("x")),
-				y: parseInt($(event.handles[0]).attr("y"))
+				x: parseInt($(event.target).attr("x")),
+				y: parseInt($(event.target).attr("y"))
 			};
 
 			for (var k in App.selected.nodes) {
@@ -401,20 +403,24 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				no.startDrag.x = no.item.x + offset.x;
 				no.startDrag.y = no.item.y + offset.y;
 				no.startDragPointer = {};
-				no.startDragPointer.x = pointer.x;
-				no.startDragPointer.y = pointer.y;
+				no.startDragPointer.x = pointer.clientX;// - parseInt($(pointer.originalTarget).attr("x"));
+				no.startDragPointer.y = pointer.clientY;// - parseInt($(pointer.originalTarget).attr("y")
 			}
 		},
 		onDragResizeMove: function(event, pointer) {
+			App.noselect = true;
 			if (!App.selected || !App.selected.nodes) return;
 			if (!Object.keys(App.selected.nodes).length === 0) return;
 
 			var ratio = App.data.diagram[App.data.diagram.current].zoom / 100;
 			for (var k in App.selected.nodes) {
 				var no = App.selected.nodes[k];
+
+				if (!no.startDragPointer) this.onDragResizeStart(event, pointer);
+
 				var pointDifference = {
-					x: (pointer.x - no.startDragPointer.x) / ratio,
-					y: (pointer.y - no.startDragPointer.y) / ratio
+					x: (pointer.clientX - no.startDragPointer.x) / ratio,
+					y: (pointer.clientY - no.startDragPointer.y) / ratio
 				};
 				var position = {
 					x: no.startDrag.x + pointDifference.x,
@@ -427,6 +433,16 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			}
 			App.trigger("nodes:resize");
 		},
+		onDragResizeEnd: function(event, pointer) {
+			App.noselect = false;
+			if (!App.selected || !App.selected.nodes) return;
+			if (!Object.keys(App.selected.nodes).length === 0) return;
+
+			for (var k in App.selected.nodes) {
+					delete no.startDragPointer;
+					delete no.startDrag;
+			}
+		},
 		onDragStart: function( event, pointer ) {
 			if (!App.selected || !App.selected.nodes) return;
 			if (!Object.keys(App.selected.nodes).length === 0) return;
@@ -438,21 +454,23 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				no.startDrag.x = no.item.x;
 				no.startDrag.y = no.item.y;
 				no.startDragPointer = {};
-				no.startDragPointer.x = pointer.x;
-				no.startDragPointer.y = pointer.y;
+				no.startDragPointer.x = pointer.clientX;
+				no.startDragPointer.y = pointer.clientY;
 			}
 			
 		},
 		onDragMove: function( event, pointer ) {
+			App.noselect = true;
 			if (!App.selected || !App.selected.nodes) return;
 			if (!Object.keys(App.selected.nodes).length === 0) return;
 
 			var ratio = App.data.diagram[App.data.diagram.current].zoom / 100;
 			for (var k in App.selected.nodes) {
 				var no = App.selected.nodes[k];
+				if (!no.startDragPointer) this.onDragStart(event, pointer);
 				var pointDifference = {
-					x: (pointer.x - no.startDragPointer.x) / ratio,
-					y: (pointer.y - no.startDragPointer.y) / ratio
+					x: (pointer.clientX - no.startDragPointer.x) / ratio,
+					y: (pointer.clientY - no.startDragPointer.y) / ratio
 				};
 				no.setPosition({
 					x: no.startDrag.x + pointDifference.x,
@@ -460,6 +478,16 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 				});
 			}
 			App.trigger("nodes:move");
+		},
+		onDragEnd: function(event, pointer) {
+			App.noselect = false;
+			if (!App.selected || !App.selected.nodes) return;
+			if (!Object.keys(App.selected.nodes).length === 0) return;
+
+			for (var k in App.selected.nodes) {
+					delete no.startDragPointer;
+					delete no.startDrag;
+			}
 		},
 		onSelect: function() {
 			if (!App.selected) App.selected = {};

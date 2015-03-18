@@ -23,6 +23,11 @@ require.config({
 			'deps': [
 				'jquery'
 			]
+		},
+		'draggabilly': {
+			'deps': [
+				'jquery'
+			]
 		}
 	}
 	//'urlArgs': "bust=" +  (new Date()).getTime()
