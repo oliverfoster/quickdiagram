@@ -640,7 +640,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 		}
 		switch(event.which) {
 		case 16: case 17: case 18:
-			modifier(false);
+			if (!App.altDown) modifier(false);
 		}
 	});
 
