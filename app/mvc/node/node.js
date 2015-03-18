@@ -13,8 +13,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			"mouseover": "onMouseOver",
 			"focus": "onFocus",
 			"blur": "onBlur",
-			"click .header": "setDocumentTitle",
-			"dblclick": "onDoubleClick"
+			"click .header": "setDocumentTitle"
+			//"dblclick": "onDoubleClick"
 		},
 		setDocumentTitle: function() {
 			document.title = "Diagram - " + this.$(".textarea").val();
