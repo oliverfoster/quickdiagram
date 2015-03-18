@@ -80,6 +80,7 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			resizer.on('dragStart', _.bind(this.onDragResizeStart, this));
 			resizer.on('dragMove', _.bind(this.onDragResizeMove, this));
 			resizer.on('dragEnd', _.bind(this.onDragResizeEnd, this));
+			resizer.disable();
 
 			var $scrollZone = $(".scrollZone");
 			$scrollZone.scroll(_.bind(this.onScroll, this));
@@ -87,6 +88,10 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			this.$el.on("keyup", _.bind(function(event) {
 				this.setText(this.$(".textarea").val(), false);
 			}, this));
+
+			this.$(".textarea").on("focus", function() {
+				console.log("textarea focused");
+			})
 
 			this.listenTo(App, "nodes:blur", this.onUnSelect);
 			this.listenTo(App, "altMod", this.onAltMod);
@@ -228,12 +233,15 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			}
 		},
 		onMouseOver: function() {
-			if (App.altDown === true && App.noselect !== true) {
+			if ((App.altDown === true || App.doubleClicked == true) && App.noselect !== true) {
 				this.onFocus()
 			}
 		},
 		onFocus: function(event) {
 			if (event) {
+				if ($(event.target).is(".textarea")) {
+					event.target.focus();
+				};
 				event.preventDefault();
 				event.stopPropagation();
 			}
