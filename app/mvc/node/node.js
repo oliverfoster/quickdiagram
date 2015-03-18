@@ -232,10 +232,19 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			} else {
 				this.mover.disable();
 				this.resizer.disable();
+				App.noselect = false;
+				if (!App.selected || !App.selected.nodes) return;
+				if (!Object.keys(App.selected.nodes).length === 0) return;
+
+				for (var k in App.selected.nodes) {
+					var no = App.selected.nodes[k];
+					delete no.startDragPointer;
+					delete no.startDrag;
+				}
 			}
 		},
 		onMouseOver: function() {
-			if ((App.altDown === true || App.doubleClicked == true) && App.noselect !== true) {
+			if ((App.altDown === true || App.doubleClicked == true) && App.ctrlDown && App.noselect !== true) {
 				this.onFocus()
 			}
 		},
@@ -318,6 +327,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 		},
 		setSize: function(options) {
 
+			if (_.isNaN(options.height) || _.isNaN(options.width)) return;
+
 			var width = this.item.width = options.width;
 			var height = this.item.height = options.height;
 
@@ -367,6 +378,8 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 		},
 		setPosition: function(options) {
 			
+			if (_.isNaN(options.x) || _.isNaN(options.y)) return;
+
 			this.item.x = options.x;
 			this.item.y = options.y;
 
@@ -442,13 +455,15 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			App.trigger("nodes:resize");
 		},
 		onDragResizeEnd: function(event, pointer) {
+			if (App.altDown) return;
 			App.noselect = false;
 			if (!App.selected || !App.selected.nodes) return;
 			if (!Object.keys(App.selected.nodes).length === 0) return;
 
 			for (var k in App.selected.nodes) {
-					delete no.startDragPointer;
-					delete no.startDrag;
+				var no = App.selected.nodes[k];
+				delete no.startDragPointer;
+				delete no.startDrag;
 			}
 		},
 		onDragStart: function( event, pointer ) {
@@ -488,13 +503,16 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 			App.trigger("nodes:move");
 		},
 		onDragEnd: function(event, pointer) {
+			if (App.altDown) return;
+
 			App.noselect = false;
 			if (!App.selected || !App.selected.nodes) return;
 			if (!Object.keys(App.selected.nodes).length === 0) return;
 
 			for (var k in App.selected.nodes) {
-					delete no.startDragPointer;
-					delete no.startDrag;
+				var no = App.selected.nodes[k];
+				delete no.startDragPointer;
+				delete no.startDrag;
 			}
 		},
 		onSelect: function() {
