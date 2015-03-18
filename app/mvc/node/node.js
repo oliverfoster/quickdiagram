@@ -228,8 +228,10 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 		onAltMod: function(on) {
 			if (on) {
 				this.mover.enable();
+				this.resizer.enable();
 			} else {
 				this.mover.disable();
+				this.resizer.disable();
 			}
 		},
 		onMouseOver: function() {
@@ -239,12 +241,10 @@ define(['app/mvc/view', 'draggabilly'], function(View, Draggabilly) {
 		},
 		onFocus: function(event) {
 			if (event) {
-				if ($(event.target).is(".textarea")) {
-					event.target.focus();
-				};
-				event.preventDefault();
-				event.stopPropagation();
-			}
+
+					event.preventDefault();
+					event.stopPropagation();
+				}
 			var scrollZone = $(".scrollZone")[0];
 			this.focused = true;
 			this.scrollTop = scrollZone.scrollTop;

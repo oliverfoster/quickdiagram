@@ -1708,8 +1708,8 @@ Unidragger.prototype.onclick = function( event ) {
 
 // triggered after pointer down & up with no/tiny movement
 Unidragger.prototype._staticClick = function( event, pointer ) {
-  // allow click in text input
-  if ( event.target.nodeName == 'INPUT' && event.target.type == 'text' ) {
+  // allow click in text input  
+  if ( event.target.nodeName == 'INPUT' && event.target.type == 'text') {
     event.target.focus();
   }
   this.staticClick( event, pointer );
@@ -1999,15 +1999,21 @@ Draggabilly.prototype._addTransformPosition = function( style ) {
  * @param {Event or Touch} pointer
  */
 Draggabilly.prototype.pointerDown = function( event, pointer ) {
+  if (!this.isEnabled) {
+  	this._pointerDone();
+  	return;
+  }
+
   this._dragPointerDown( event, pointer );
   // kludge to blur focused inputs in dragger
   var focused = document.activeElement;
   if ( focused && focused.blur ) {
-    focused.blur();
+		focused.blur();
   }
   // bind move and end events
   this._bindPostStartEvents( event );
   classie.add( this.element, 'is-pointer-down' );
+  
   this.dispatchEvent( 'pointerDown', event, [ pointer ] );
 };
 
